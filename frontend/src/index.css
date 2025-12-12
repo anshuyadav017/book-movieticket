@@ -1,3 +1,7 @@
+/* ============================================
+   GLOBAL STYLES & ROOT VARIABLES
+   ============================================ */
+
 :root {
   --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -9,6 +13,12 @@
   --light-card: #ffffff;
   --light-text: #1f2937;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --success: #4caf50;
+  --danger: #ff6b6b;
+  --warning: #ffa502;
 }
 
 * {
@@ -31,29 +41,28 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: var(--transition);
-  background: #0f0c29;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-attachment: fixed;
   position: relative;
-  overflow: visible;
-  height: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
 }
 
 body.dark-mode {
-  background: var(--dark-bg);
+  background: linear-gradient(135deg, #0a0a15 0%, #1a0f2e 100%);
+  background-attachment: fixed;
   color: var(--dark-text);
 }
 
 body.light-mode {
-  background: var(--light-bg);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-attachment: fixed;
   color: var(--light-text);
 }
 
-code {
-  font-family:
-    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-}
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
 
-/* Smooth Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -64,15 +73,39 @@ code {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #764ba2, #667eea);
+  background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
 }
 
-/* Global Animations */
+/* ============================================
+   SELECTION STYLING
+   ============================================ */
+
+::selection {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+::-moz-selection {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+/* ============================================
+   CODE ELEMENT
+   ============================================ */code {
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* ============================================
+   GLOBAL ANIMATIONS
+   ============================================ */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -106,6 +139,24 @@ code {
   }
 }
 
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutRight {
+  to {
+    opacity: 0;
+    transform: translateX(400px);
+  }
+}
+
 @keyframes pulse {
   0%,
   100% {
@@ -125,7 +176,26 @@ code {
   }
 }
 
-/* Toast Notification Styles */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
+
 .toast-container {
   position: fixed;
   top: 20px;
@@ -134,9 +204,165 @@ code {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-width: 400px;
 }
 
 .toast {
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideInRight 0.4s ease-out, slideOutRight 0.4s ease-in 2.6s forwards;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.toast.success {
+  background: rgba(76, 175, 80, 0.95);
+  color: white;
+  border-left: 4px solid #4caf50;
+}
+
+.toast.error {
+  background: rgba(255, 107, 107, 0.95);
+  color: white;
+  border-left: 4px solid #ff6b6b;
+}
+
+.toast.info {
+  background: rgba(102, 126, 234, 0.95);
+  color: white;
+  border-left: 4px solid #667eea;
+}
+
+.toast-icon {
+  font-size: 1.2em;
+}
+
+.toast-message {
+  flex: 1;
+}
+
+.toast-close {
+  font-size: 1.5em;
+  opacity: 0.7;
+  transition: var(--transition);
+}
+
+.toast-close:hover {
+  opacity: 1;
+}
+
+/* ============================================
+   DARK MODE TOGGLE
+   ============================================ */
+
+.dark-mode-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  color: #667eea;
+}
+
+.dark-mode-toggle:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  background: white;
+  border-color: #667eea;
+}
+
+.dark-mode-toggle-icon {
+  font-size: 1.1em;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .toast-container {
+    top: 15px;
+    right: 15px;
+    max-width: calc(100vw - 30px);
+  }
+
+  .dark-mode-toggle {
+    top: 15px;
+    left: 15px;
+    font-size: 0.85em;
+    padding: 8px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .toast-container {
+    top: 10px;
+    right: 10px;
+    max-width: calc(100vw - 20px);
+  }
+
+  .toast {
+    font-size: 0.9em;
+    padding: 12px 16px;
+  }
+
+  .dark-mode-toggle {
+    top: 10px;
+    left: 10px;
+    font-size: 0.75em;
+    padding: 6px 12px;
+  }
+
+  .dark-mode-toggle-icon {
+    font-size: 1em;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #0a0a15 0%, #1a0f2e 100%);
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  .dark-mode-toggle,
+  .toast-container {
+    display: none;
+  }
+}
   min-width: 300px;
   padding: 16px 24px;
   border-radius: 12px;

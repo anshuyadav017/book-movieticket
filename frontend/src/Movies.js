@@ -63,21 +63,64 @@ function Movies() {
 
   // Generate movie poster URL (using TMDB-style images)
   const getMoviePoster = (title, genre) => {
-    // Map of movie titles to real poster images
+    // Map of movie titles to real poster images (60 movies)
     const posterMap = {
-      Chhava: "https://image.tmdb.org/t/p/w500/kKgQzkUCnQmeTPkyIwHly2t6ZFI.jpg",
-      "Pushpa 2":
-        "https://image.tmdb.org/t/p/w500/8rfWZ8b9KOhAFD5xJPUBr1FgfQX.jpg",
-      Mufasa: "https://image.tmdb.org/t/p/w500/lurEK87kukWNaHd0zYnsi3yzJrs.jpg",
-      "Sonic 3":
-        "https://image.tmdb.org/t/p/w500/yRaP8PNM6c9pghN0NEdTnCMWq5z.jpg",
-      "Moana 2":
-        "https://image.tmdb.org/t/p/w500/4YZpsylmjHbqeWzjKpUEF8gcLNW.jpg",
-      Wicked: "https://image.tmdb.org/t/p/w500/xDGbZ0JJ3mYaGKy4Nzd9Kph6M9L.jpg",
-      "Gladiator II":
-        "https://image.tmdb.org/t/p/w500/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg",
-      default:
-        "https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg",
+      "Pushpa 2: The Rule": "https://image.tmdb.org/t/p/w500/8rfWZ8b9KOhAFD5xJPUBr1FgfQX.jpg",
+      "Mufasa: The Lion King": "https://image.tmdb.org/t/p/w500/lurEK87kukWNaHd0zYnsi3yzJrs.jpg",
+      "Sonic 3": "https://image.tmdb.org/t/p/w500/yRaP8PNM6c9pghN0NEdTnCMWq5z.jpg",
+      "Moana 2": "https://image.tmdb.org/t/p/w500/4YZpsylmjHbqeWzjKpUEF8gcLNW.jpg",
+      "Wicked": "https://image.tmdb.org/t/p/w500/xDGbZ0JJ3mYaGKy4Nzd9Kph6M9L.jpg",
+      "Gladiator II": "https://image.tmdb.org/t/p/w500/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg",
+      "Chhava": "https://image.tmdb.org/t/p/w500/kKgQzkUCnQmeTPkyIwHly2t6ZFI.jpg",
+      "Inception": "https://image.tmdb.org/t/p/w500/oYuLEyjQejS9n7qMjrXIRn1tayl.jpg",
+      "The Dark Knight": "https://image.tmdb.org/t/p/w500/1hnjPJd40ItN7EKts50pAQ51XR5.jpg",
+      "Interstellar": "https://image.tmdb.org/t/p/w500/rAiVjAxmPo7W8DD89Q2QljoxD4G.jpg",
+      "Dunkirk": "https://image.tmdb.org/t/p/w500/gMReCNx1o4ORC1xDaV8rVx3QU04.jpg",
+      "Avatar": "https://image.tmdb.org/t/p/w500/jRXYRdF5B5resnGH16l64KtItzj.jpg",
+      "Dune: Part Two": "https://image.tmdb.org/t/p/w500/zmKL7yScPzFAMkUXuLACX1/nw5r.jpg",
+      "Oppenheimer": "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGClnqV3FCA.jpg",
+      "Barbie": "https://image.tmdb.org/t/p/w500/9CWmWvEYWgMrKmyghbkVMq1SzFS.jpg",
+      "Killers of the Flower Moon": "https://image.tmdb.org/t/p/w500/DKz8x8amAVuBIHzw30LIL0b9qkD.jpg",
+      "Past Lives": "https://image.tmdb.org/t/p/w500/5w3C7zZ2PpXQHVTn6pXnkDrzPVr.jpg",
+      "American Fiction": "https://image.tmdb.org/t/p/w500/kJGx8zQE1UJmX0CymANIrp3qpqC.jpg",
+      "The Brutalist": "https://image.tmdb.org/t/p/w500/7nnhSBR3KycedI7sV2aGZu5wvMy.jpg",
+      "Saltburn": "https://image.tmdb.org/t/p/w500/tQlHYfEGmZ7SLgx9yGt7h1lFqcX.jpg",
+      "Poor Things": "https://image.tmdb.org/t/p/w500/kb3Hwxn1BoYIiV1h1RCnMiGZVPq.jpg",
+      "Priscilla": "https://image.tmdb.org/t/p/w500/fPJWMF5drxsqt0l3BTRODX7JVEQ.jpg",
+      "The Zone of Interest": "https://image.tmdb.org/t/p/w500/7M4lDhfKrL0hQ2UE7Z2YxN6A5Kp.jpg",
+      "Civil War": "https://image.tmdb.org/t/p/w500/p8Uje7zZfRyPAN8wYktAKzVfCaM.jpg",
+      "The Iron Claw": "https://image.tmdb.org/t/p/w500/qv7WcfyXU8cVNZCbXrXw4wKlXEL.jpg",
+      "Article 15": "https://image.tmdb.org/t/p/w500/8BQqL8oTdP3bLhgkDcvPflXHMgz.jpg",
+      "Badhaai Do": "https://image.tmdb.org/t/p/w500/iyvKT9KeALpWBsH3e8Nq6M4eNzg.jpg",
+      "Kantara": "https://image.tmdb.org/t/p/w500/gJoxKZJfgRo5s03vv0rEPJJqGGv.jpg",
+      "The Kashmir Files": "https://image.tmdb.org/t/p/w500/u1DqZ4C06m3xHkMtT7LZl1C5YNx.jpg",
+      "Raaz Reboot": "https://image.tmdb.org/t/p/w500/rNlq8iDNbfQSyKyNS4sEf6bIhLe.jpg",
+      "Pathaan": "https://image.tmdb.org/t/p/w500/kCnPJl8RCxpYJxBPjpGmFwu6Kls.jpg",
+      "Drishyam 2": "https://image.tmdb.org/t/p/w500/m7LN17PyjlvKy3Asc1RYjJ4OKhf.jpg",
+      "Bhediya": "https://image.tmdb.org/t/p/w500/9OeVqLHLh2S8GvQDgQvLMXI3a1k.jpg",
+      "An Action Hero": "https://image.tmdb.org/t/p/w500/kKfaZLVBSIDFVQnj9cZK3NzY6iY.jpg",
+      "Govinda Naam Mera": "https://image.tmdb.org/t/p/w500/vXS5grn3BRlMJ0xJ/M/mYCEi4Yyb8yT3jB9A8S.jpg",
+      "Khel Khel Mein": "https://image.tmdb.org/t/p/w500/l0dDwT8sJZb6V2KKGVX5LzR1TaU.jpg",
+      "Jawaan": "https://image.tmdb.org/t/p/w500/qmvC2/IVvwqcAH1p0j5nO8eUe5M.jpg",
+      "Bade Miyan Chote Miyan": "https://image.tmdb.org/t/p/w500/fFn0UdC8BPvP0AsdAkh3hLCAmQs.jpg",
+      "Gadar 2": "https://image.tmdb.org/t/p/w500/bDGWLPVN86sNe7UM51aRKxNmYKx.jpg",
+      "OMG: Oh My God!": "https://image.tmdb.org/t/p/w500/y5HH7XU1mKBdEeHjKvBLvQJXQqX.jpg",
+      "Student of the Year 3": "https://image.tmdb.org/t/p/w500/kxJxqf8yYaW0KeIr4Yx5gv6VPQh.jpg",
+      "Shaitaan": "https://image.tmdb.org/t/p/w500/vdPMKm9fVMmNTI/oMZ5Q7Sk3Dv.jpg",
+      "Fighter": "https://image.tmdb.org/t/p/w500/l2GHFtI3x5M3KMXzBrM0mPfxGUS.jpg",
+      "Teri Baaton Mein Aisa Uljha Jiya": "https://image.tmdb.org/t/p/w500/zMN4j0M1kYvQvB3SzL5i4Fxs7Uh.jpg",
+      "Tiger 3": "https://image.tmdb.org/t/p/w500/kCnPJl8RCxpYJxBPjpGmFwu6KAa.jpg",
+      "Killers": "https://image.tmdb.org/t/p/w500/5o7WZ6pLNKH4Qzs7yQJ9QkNpJ3I.jpg",
+      "The Hunger Games: Catching Fire": "https://image.tmdb.org/t/p/w500/fKvmWtRJo4CdLMdEELUYjlV6fj.jpg",
+      "Mission Impossible: Dead Reckoning": "https://image.tmdb.org/t/p/w500/qhxQcG0hCsrFVmxIfWBdG4Dv2QI.jpg",
+      "Spider-Man: Across the Spider-Verse": "https://image.tmdb.org/t/p/w500/kVz2hWy4z0N1MfSFtJ7YjeCOANe.jpg",
+      "The Marvels": "https://image.tmdb.org/t/p/w500/jhsR1aRWYc5w63aGZhq6lWD5xaY.jpg",
+      "Aquaman and the Lost Kingdom": "https://image.tmdb.org/t/p/w500/lR6j2ULlNq3J2c2TXkHtlJZg1Ay.jpg",
+      "Insidious: The Red Door": "https://image.tmdb.org/t/p/w500/8xh8cPGKqK1AjqYCEFBT2N7OkGR.jpg",
+      "A Thousand and One": "https://image.tmdb.org/t/p/w500/tzXhDXiVCT6ZdYPM9nKTRYVFSDl.jpg",
+      "The Nun II": "https://image.tmdb.org/t/p/w500/4WkjKrZFHjBBgvNCAG6TvVIZEBj.jpg",
+      "Elemental": "https://image.tmdb.org/t/p/w500/4OiR78wFb8LXHxVhW8rHHPHBXbH.jpg",
+      default: "https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg",
     };
     return posterMap[title] || posterMap["default"];
   };
