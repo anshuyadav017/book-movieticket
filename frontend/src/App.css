@@ -1,3 +1,51 @@
+/* ============================================
+   ENHANCED MOVIE BOOKING APP - MODERN CSS
+   ============================================ */
+
+:root {
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+  --accent-color: #f093fb;
+  --dark-bg: #0f0f23;
+  --dark-card: #1a1a3e;
+  --dark-text: #e0e7ff;
+  --success: #4caf50;
+  --danger: #ff6b6b;
+  --warning: #ffa502;
+  --transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  --box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 20px 80px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-attachment: fixed;
+  transition: var(--transition);
+}
+
+body.dark-mode {
+  background: linear-gradient(135deg, #0a0a15 0%, #1a0f2e 100%);
+}
+
+/* ============================================
+   APP CONTAINER & BACKGROUNDS
+   ============================================ */
+
 .App {
   min-height: 100vh;
   width: 100%;
@@ -7,22 +55,9 @@
   background-attachment: fixed;
   position: relative;
   transition: var(--transition);
-  overflow: visible;
-  will-change: transform;
-  transform: translateZ(0);
-  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
 }
 
-/* Video Background */
-.video-background {
-  display: none;
-}
-
-.video-overlay {
-  display: none;
-}
-
-/* Animated Background */
 .App::before {
   content: "";
   position: fixed;
@@ -30,8 +65,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background:
-    radial-gradient(
+  background: radial-gradient(
       circle at 20% 50%,
       rgba(120, 119, 198, 0.3),
       transparent 50%
@@ -59,54 +93,6 @@
   }
 }
 
-@keyframes gradientFlow {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.App.dark-mode {
-  background: linear-gradient(135deg, #000000 0%, #0f0f23 50%, #1a1a2e 100%);
-  background-size: 400% 400%;
-  animation: gradientFlow 15s ease infinite;
-}
-
-/* Falling Stars Animation */
-.App::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image:
-    radial-gradient(2px 2px at 20px 30px, white, transparent),
-    radial-gradient(2px 2px at 60px 70px, white, transparent),
-    radial-gradient(1px 1px at 50px 50px, white, transparent),
-    radial-gradient(1px 1px at 130px 80px, white, transparent),
-    radial-gradient(2px 2px at 90px 10px, white, transparent);
-  background-size: 200px 200px;
-  background-repeat: repeat;
-  animation: starfall 20s linear infinite;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.6;
-}
-
-@keyframes starfall {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100vh);
-  }
-}
-
-/* Floating Particles */
 .App::after {
   content: "";
   position: fixed;
@@ -114,8 +100,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background:
-    radial-gradient(
+  background: radial-gradient(
       circle at 15% 25%,
       rgba(255, 255, 255, 0.1) 0%,
       transparent 2%
@@ -129,18 +114,7 @@
       circle at 45% 60%,
       rgba(255, 255, 255, 0.12) 0%,
       transparent 2%
-    ),
-    radial-gradient(
-      circle at 70% 40%,
-      rgba(255, 255, 255, 0.09) 0%,
-      transparent 2%
-    ),
-    radial-gradient(
-      circle at 30% 80%,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 2%
     );
-  background-size: 100% 100%;
   animation: floatParticles 25s ease-in-out infinite;
   pointer-events: none;
   z-index: 0;
@@ -162,71 +136,149 @@
   }
 }
 
-/* Cinema Spotlight Effect */
-.App > *:first-child::before {
-  content: "";
-  position: fixed;
-  top: -50%;
-  left: 50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 0%,
-    transparent 30%,
-    rgba(15, 12, 41, 0.3) 70%,
-    rgba(15, 12, 41, 0.8) 100%
-  );
-  transform: translateX(-50%);
-  animation: spotlightPulse 8s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 0;
-}
+/* ============================================
+   SHOOTING STARS
+   ============================================ */
 
-@keyframes spotlightPulse {
-  0%,
-  100% {
-    opacity: 0.5;
-    transform: translateX(-50%) scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: translateX(-50%) scale(1.1);
-  }
-}
-
-/* Shooting Stars */
 .shooting-star {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 2px;
-  height: 2px;
+  width: 3px;
+  height: 3px;
   background: white;
   border-radius: 50%;
-  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
-  animation: shootingStar 3s linear infinite;
-  pointer-events: none;
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.8);
+  animation: shoot 2s ease-in forwards;
   z-index: 0;
+  pointer-events: none;
 }
 
-@keyframes shootingStar {
-  0% {
-    transform: translate(0, 0) rotate(-45deg);
+@keyframes shoot {
+  from {
     opacity: 1;
+    transform: translateX(0) translateY(0);
   }
-  70% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(300px, 300px) rotate(-45deg);
+  to {
     opacity: 0;
+    transform: translateX(100px) translateY(100px);
   }
 }
 
-.App > * {
+/* ============================================
+   DARK MODE
+   ============================================ */
+
+.App.dark-mode {
+  background: linear-gradient(135deg, #000000 0%, #0f0f23 50%, #1a1a2e 100%);
+  background-size: 400% 400%;
+  animation: darkGradientFlow 15s ease infinite;
+}
+
+@keyframes darkGradientFlow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ============================================
+   ROUTES & CONTENT
+   ============================================ */
+
+.App > div {
   position: relative;
   z-index: 1;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1024px) {
+  :root {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 13px;
+  }
+
+  .App::before,
+  .App::after {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 12px;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.6s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
 }
 
 /* Dark Mode Toggle Button */
