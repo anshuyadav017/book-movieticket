@@ -28,5 +28,8 @@ public class Movie {
 
     @Column(name = "duration")
     private Integer duration;
+
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
 }
 

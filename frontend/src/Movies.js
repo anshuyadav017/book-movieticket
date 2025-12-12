@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { getMovies, getTheaters, getShows } from "./api";
 import "./Movies.css";
 
+// TMDB API Configuration with Bearer Token
+const TMDB_ACCESS_TOKEN = "7d114876c6eeaf156dd47aa9103d9e36";
+const TMDB_BASE_URL = "https://api.themoviedb.org/3";
+
 function Movies() {
   const [movies, setMovies] = useState([]);
   const [allMovies, setAllMovies] = useState([]);
@@ -11,6 +15,23 @@ function Movies() {
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [toasts, setToasts] = useState([]);
+  const [posterCache, setPosterCache] = useState({});
+
+  // Fetch posters when movies change
+  useEffect(() => {
+    if (movies.length > 0) {
+      movies.forEach((movie) => {
+        if (!posterCache[movie.id]) {
+          // Add small delay to avoid rate limiting
+          setTimeout(() => {
+            fetchMoviePoster(movie.title, movie.id).then((url) => {
+              setPosterCache((prev) => ({ ...prev, [movie.id]: url }));
+            });
+          }, Math.random() * 500);
+        }
+      });
+    }
+  }, [movies]);
 
   useEffect(() => {
     Promise.all([getMovies(), getTheaters(), getShows()])
@@ -61,25 +82,64 @@ function Movies() {
     document.body.classList.toggle("light-mode");
   };
 
-  // Generate movie poster URL (using TMDB-style images)
-  const getMoviePoster = (title, genre) => {
-    // Map of movie titles to real poster images
-    const posterMap = {
-      Chhava: "https://image.tmdb.org/t/p/w500/kKgQzkUCnQmeTPkyIwHly2t6ZFI.jpg",
-      "Pushpa 2":
-        "https://image.tmdb.org/t/p/w500/8rfWZ8b9KOhAFD5xJPUBr1FgfQX.jpg",
-      Mufasa: "https://image.tmdb.org/t/p/w500/lurEK87kukWNaHd0zYnsi3yzJrs.jpg",
-      "Sonic 3":
-        "https://image.tmdb.org/t/p/w500/yRaP8PNM6c9pghN0NEdTnCMWq5z.jpg",
-      "Moana 2":
-        "https://image.tmdb.org/t/p/w500/4YZpsylmjHbqeWzjKpUEF8gcLNW.jpg",
-      Wicked: "https://image.tmdb.org/t/p/w500/xDGbZ0JJ3mYaGKy4Nzd9Kph6M9L.jpg",
-      "Gladiator II":
-        "https://image.tmdb.org/t/p/w500/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg",
-      default:
-        "https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg",
-    };
-    return posterMap[title] || posterMap["default"];
+  // Fetch movie poster from TMDB API using Bearer token
+  const fetchMoviePoster = async (movieTitle, movieId) => {
+    if (posterCache[movieId]) {
+      return posterCache[movieId];
+    }
+
+    try {
+      console.log(`Fetching poster for: ${movieTitle}`);
+      const response = await fetch(
+        `${TMDB_BASE_URL}/search/movie?query=${encodeURIComponent(movieTitle)}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${TMDB_ACCESS_TOKEN}`,
+            'Content-Type': 'application/json;charset=utf-8'
+          }
+        }
+      );
+      
+      console.log(`Response status for ${movieTitle}:`, response.status);
+      const data = await response.json();
+      console.log(`Search results for ${movieTitle}:`, data);
+      
+      if (data.results && data.results.length > 0) {
+        const movie = data.results[0];
+        if (movie.poster_path) {
+          const fullUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+          console.log(`Found poster for ${movieTitle}:`, fullUrl);
+          return fullUrl;
+        }
+      }
+      console.log(`No poster found for ${movieTitle}, using fallback`);
+    } catch (error) {
+      console.error("Error fetching poster for", movieTitle, ":", error);
+    }
+
+    // Fallback to placeholder if no poster found
+    return getMoviePoster(movieId, movieTitle);
+  };
+
+  // Generate movie poster URL from frontend with unique colors (fallback)
+  const getMoviePoster = (movieId, title) => {
+    const colors = [
+      ["FF6B6B", "4ECDC4"],
+      ["A8E6CF", "FFD3B6"],
+      ["FF8B94", "FFAAA5"],
+      ["95E1D3", "F38181"],
+      ["AA96DA", "FCBAD3"],
+      ["FFCCCC", "FF9999"],
+      ["B2D8D8", "66B2B2"],
+      ["FFA07A", "FF6347"],
+      ["98D8C8", "6EC1B4"],
+      ["FFB6C1", "FF69B4"],
+    ];
+    
+    const colorIndex = movieId % colors.length;
+    const [color1, color2] = colors[colorIndex];
+    
+    return `https://placehold.co/500x750/${color1}/${color2}?text=${encodeURIComponent(title)}&font=montserrat`;
   };
 
   // Generate random rating for movies (4-5 stars)
@@ -194,6 +254,8 @@ function Movies() {
         <div className="movies-grid">
           {movies.map((movie, index) => {
             const rating = getMovieRating(movie.id);
+            const posterUrl = posterCache[movie.id] || getMoviePoster(movie.id, movie.title);
+
             return (
               <div
                 key={movie.id}
@@ -202,10 +264,13 @@ function Movies() {
               >
                 <div className="movie-poster-wrapper">
                   <img
-                    src={getMoviePoster(movie.title, movie.genre)}
+                    src={posterUrl}
                     alt={movie.title}
                     className="movie-poster-image"
                     loading="lazy"
+                    onError={(e) => {
+                      e.target.src = getMoviePoster(movie.id, movie.title);
+                    }}
                   />
                   <div className="movie-poster-overlay">
                     <button
